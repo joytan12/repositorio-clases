@@ -1,0 +1,16 @@
+meta {
+  name: 13 - Reiniciar y Sembrar Datos (POST)
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/api/seed
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+}

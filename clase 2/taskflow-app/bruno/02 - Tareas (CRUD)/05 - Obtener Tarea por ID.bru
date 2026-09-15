@@ -1,0 +1,17 @@
+meta {
+  name: 05 - Obtener Tarea por ID
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/tasks/1
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.id: eq 1
+}

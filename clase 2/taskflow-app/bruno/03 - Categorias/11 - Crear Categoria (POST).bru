@@ -1,0 +1,24 @@
+meta {
+  name: 11 - Crear Categoria (POST)
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/api/categories
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Testing & QA",
+    "color": "#06b6d4"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.success: eq true
+  res.body.data.name: eq Testing & QA
+}

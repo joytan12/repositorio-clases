@@ -1,0 +1,27 @@
+meta {
+  name: 06 - Crear Tarea (POST)
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/tasks
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Aprender Bruno API Client",
+    "description": "Probar todos los endpoints de TaskFlow utilizando la colección oficial de Bruno.",
+    "category_id": 1,
+    "priority": "alta",
+    "due_date": "2026-09-25"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.success: eq true
+  res.body.data.title: isDefined
+}
