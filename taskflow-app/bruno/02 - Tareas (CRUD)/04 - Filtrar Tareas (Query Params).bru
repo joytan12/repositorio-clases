@@ -1,0 +1,21 @@
+meta {
+  name: 04 - Filtrar Tareas (Query Params)
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/tasks?status=pendiente&priority=alta
+  body: none
+  auth: none
+}
+
+params:query {
+  status: pendiente
+  priority: alta
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+}

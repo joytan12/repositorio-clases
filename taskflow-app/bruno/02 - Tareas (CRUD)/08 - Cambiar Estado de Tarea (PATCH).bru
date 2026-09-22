@@ -1,0 +1,23 @@
+meta {
+  name: 08 - Cambiar Estado de Tarea (PATCH)
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/api/tasks/1/status
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "status": "completada"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.status: eq completada
+}
