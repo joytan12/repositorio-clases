@@ -1,0 +1,55 @@
+name: Check
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  conflictos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Buscar marcadores de conflicto sin resolver
+        run: |
+          if git grep -n -E '^(<<<<<<< |>>>>>>> |=======$)'; then
+            echo "Hay marcadores de conflicto en los archivos, se rechaza"
+            exit 1
+          fi
+          echo "No hay marcadores de conflicto"
+
+      - name: Probar si la rama se fusiona con master
+        if: github.event_name == 'pull_request'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          if git merge --no-commit --no-ff origin/master; then
+            echo "La rama se fusiona limpio con master"
+            git merge --abort || true
+          else
+            echo "La rama tiene conflictos con master, se rechaza"
+            git merge --abort || true
+            exit 1
+          fi
+
+  prueba-aleatoria:
+    needs: conflictos
+    if: ${{ !cancelled() && needs.conflictos.result != 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prueba con 50% de probabilidad de fallar
+        run: |
+          if [ $((RANDOM % 2)) -eq 0 ]; then
+            echo "La prueba paso"
+            exit 0
+          else
+            echo "La prueba fallo"
+            exit 1
+          fi

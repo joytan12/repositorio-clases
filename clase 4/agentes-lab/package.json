@@ -1,0 +1,19 @@
+{
+  "name": "clase-4-agentes-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Laboratorio autocontenido para enseñar desarrollo guiado por specs y agentes.",
+  "scripts": {
+    "test": "node --test test/catalog.test.js test/enrollments.test.js test/notifications.test.js test/hook.test.js",
+    "test:spec": "node --test test/registration.test.js",
+    "test:csv": "node --test test/report.test.js",
+    "test:all": "node --test",
+    "demo:hook": "node scripts/demo-hook.mjs",
+    "prepare:no-spec": "node scripts/prepare-no-spec.mjs",
+    "audit": "git log --oneline --graph --decorate --all"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
